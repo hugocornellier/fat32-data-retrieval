@@ -25,45 +25,6 @@ long getSizeFseek(const char *path) {
     return filesize;
 }
 
-void printInfo() {
-    printf("---- Device Info ----\n");
-    printf("OEM Name: %s\n", bootSector.BS_OEMName);
-    char label[8];
-    strncpy(label, bootSector.BS_VolLab, (sizeof label) - 1);
-    printf("Label: %s\n", label);
-
-    char filesystype[6];
-    strncpy(filesystype, bootSector.BS_FilSysType, (sizeof filesystype) - 1);
-    printf("File System Type: %s\n", filesystype);
-    printf("Media Type: %X\n", bootSector.BPB_Media);
-
-    // Print file size in bytes, MB and GB.
-    long fsz = getSizeFseek(filepath);
-    printf("Size: %lu bytes (%gMB, %gGB)\n", fsz,
-           (double)fsz/1000000, (double)fsz/1000000000);
-
-    printf("Driver Number: %d\n", bootSector.BS_DrvNum);
-    printf("\n---- Geometry ----\n");
-    printf("Bytes per Sector: %hu\n", bootSector.BPB_BytesPerSec);
-    printf("Sector per Cluster: %hhu\n", bootSector.BPB_SecPerClus);
-    printf("Total Sectors: %d\n", bootSector.BPB_TotSec32);
-    printf("Geom: Sectors per Track: %d\n", bootSector.BPB_SecPerTrk);
-    printf("Geom: Heads: %d\n", bootSector.BPB_NumHeads);
-    printf("Hidden Sectors: %d\n", bootSector.BPB_HiddSec);
-    printf("\n---- FS Info ----\n");
-    printf("Volume ID: %s\n", vol_ID);
-    printf("Version: %d:%d\n", bootSector.BPB_FSVerLow, bootSector.BPB_FSVerHigh);
-    printf("Reserved Sectors: %d\n", bootSector.BPB_RsvdSecCnt);
-    printf("Number of FATs: %d\n", bootSector.BPB_NumFATs);
-    printf("FAT Size: %d\n", bootSector.BPB_FATSz32);
-    isFATMirrored();
-    if (fatmirrored == 0)
-        printf("Mirrored FAT: %u (yes)\n", fatmirrored);
-    else
-        printf("Mirrored FAT: %u (no)\n", fatmirrored);
-    printf("Boot Sector Backup Sector No: %d\n", bootSector.BPB_BkBootSec);
-}
-
 // Print the current directory
 // Implemented as per white paper
 void doDir() {
@@ -242,4 +203,43 @@ char* getWriteLoc(char* filename) {
 void isFATMirrored() {
     uint16_t result = bootSector.BPB_ExtFlags & 64;
     fatmirrored = (result & 64) == result ? 0 : result;
+}
+
+void printInfo() {
+    printf("---- Device Info ----\n");
+    printf("OEM Name: %s\n", bootSector.BS_OEMName);
+    char label[8];
+    strncpy(label, bootSector.BS_VolLab, (sizeof label) - 1);
+    printf("Label: %s\n", label);
+
+    char filesystype[6];
+    strncpy(filesystype, bootSector.BS_FilSysType, (sizeof filesystype) - 1);
+    printf("File System Type: %s\n", filesystype);
+    printf("Media Type: %X\n", bootSector.BPB_Media);
+
+    // Print file size in bytes, MB and GB.
+    long fsz = getSizeFseek(filepath);
+    printf("Size: %lu bytes (%gMB, %gGB)\n", fsz,
+           (double)fsz/1000000, (double)fsz/1000000000);
+
+    printf("Driver Number: %d\n", bootSector.BS_DrvNum);
+    printf("\n---- Geometry ----\n");
+    printf("Bytes per Sector: %hu\n", bootSector.BPB_BytesPerSec);
+    printf("Sector per Cluster: %hhu\n", bootSector.BPB_SecPerClus);
+    printf("Total Sectors: %d\n", bootSector.BPB_TotSec32);
+    printf("Geom: Sectors per Track: %d\n", bootSector.BPB_SecPerTrk);
+    printf("Geom: Heads: %d\n", bootSector.BPB_NumHeads);
+    printf("Hidden Sectors: %d\n", bootSector.BPB_HiddSec);
+    printf("\n---- FS Info ----\n");
+    printf("Volume ID: %s\n", vol_ID);
+    printf("Version: %d:%d\n", bootSector.BPB_FSVerLow, bootSector.BPB_FSVerHigh);
+    printf("Reserved Sectors: %d\n", bootSector.BPB_RsvdSecCnt);
+    printf("Number of FATs: %d\n", bootSector.BPB_NumFATs);
+    printf("FAT Size: %d\n", bootSector.BPB_FATSz32);
+    isFATMirrored();
+    if (fatmirrored == 0)
+        printf("Mirrored FAT: %u (yes)\n", fatmirrored);
+    else
+        printf("Mirrored FAT: %u (no)\n", fatmirrored);
+    printf("Boot Sector Backup Sector No: %d\n", bootSector.BPB_BkBootSec);
 }
