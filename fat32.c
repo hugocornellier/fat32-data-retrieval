@@ -186,11 +186,6 @@ uint32_t getNextClusterNum(uint32_t clusterNumber, fat32BS *boot_sector) {
     return result;
 }
 
-void doPut(char* filename) {
-    // To do
-    // Bonus stuff
-}
-
 char* getWriteLoc(char* filename) {
     char* path = malloc(sizeof(char*) * 8);
     path[0] = '/';
