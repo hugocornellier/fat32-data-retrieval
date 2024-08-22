@@ -11,7 +11,7 @@ License: MIT
 1. Compile the executable by running `make` in your terminal at the root dir.
 2. From the root dir, run `bin/fat32 PATH_TO_YOUR_DISKIMAGE`.
 
-    For example, you could run `bin/fat32 /sample-diskimage/diskimage` to test the program on the sample disk image: 
+    For example, you could run `bin/fat32 sample-diskimage/diskimage` to test the program on the sample disk image: 
 
 
 ## Usage
