@@ -3,8 +3,8 @@
 #include <string.h>
 #include <ctype.h>
 #include <unistd.h>
-#include "shell.h"
-#include "fat32.h"
+#include "../headers/shell.h"
+#include "../headers/fat32.h"
 #include <stdbool.h>
 
 int running = true;

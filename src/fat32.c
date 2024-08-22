@@ -1,4 +1,4 @@
-#include "fat32.h"
+#include "../headers/fat32.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <ctype.h>
@@ -23,6 +23,10 @@ long getSizeFseek(const char *path) {
     }
     fclose(fp);
     return filesize;
+}
+
+void doPut(char* filename) {
+    // To do
 }
 
 // Print the current directory

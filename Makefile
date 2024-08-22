@@ -3,26 +3,34 @@ CFLAGS = -Wall -g -std=gnu99
 
 LDLIBS =
 
-OBJS = fat32.o main.o shell.o
+SRCDIR = src
+OBJDIR = obj
+BINDIR = bin
+INCDIR = headers
 
-EXE = fat32 
+OBJS = $(OBJDIR)/fat32.o $(OBJDIR)/main.o $(OBJDIR)/shell.o
+
+EXE = $(BINDIR)/fat32
 
 all: $(EXE)
 
 $(EXE): $(OBJS)
+	mkdir -p $(BINDIR)
 	$(CC) $(CFLAGS) $(LDFLAGS) $(OBJS) -o $(EXE) $(LDLIBS)
 
-shell.o: shell.c shell.h fat32.h
-	$(CC) $(CFLAGS) -c shell.c
+$(OBJDIR)/shell.o: $(SRCDIR)/shell.c $(INCDIR)/shell.h $(INCDIR)/fat32.h
+	mkdir -p $(OBJDIR)
+	$(CC) $(CFLAGS) -c $(SRCDIR)/shell.c -o $@
 
-fat32.o: fat32.h fat32.c
-	$(CC) $(CFLAGS) -c fat32.c
+$(OBJDIR)/fat32.o: $(SRCDIR)/fat32.c $(INCDIR)/fat32.h
+	mkdir -p $(OBJDIR)
+	$(CC) $(CFLAGS) -c $(SRCDIR)/fat32.c -o $@
 
-main.o: main.c shell.h
-	$(CC) $(CFLAGS) -c main.c
+$(OBJDIR)/main.o: $(SRCDIR)/main.c $(INCDIR)/shell.h
+	mkdir -p $(OBJDIR)
+	$(CC) $(CFLAGS) -c $(SRCDIR)/main.c -o $@
 
 clean:
-	rm -f $(OBJS)
+	rm -f $(OBJDIR)/*.o
 	rm -f *~
 	rm -f $(EXE)
-
